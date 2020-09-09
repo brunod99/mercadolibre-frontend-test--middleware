@@ -9,7 +9,7 @@ const categoriesRouter = require("./routes/categories");
 const app = express();
 
 app.use((req, res, next) => {
-  const allowedDomains = ["http://localhost:3000"];
+  const allowedDomains = ["http://localhost:3000", "https://mercadolibre-frontend-test.netlify.app/"];
   const { origin } = req.headers;
   if (allowedDomains.indexOf(origin) > -1) {
     res.setHeader("Access-Control-Allow-Origin", origin);
