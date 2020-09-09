@@ -1,27 +1,40 @@
 /* eslint-disable camelcase */
-const countDecimals = value => {
-  if (Math.floor(value) === value) return 0;
-  return value.toString().split(".")[1].length || 0;
-};
+// Function that gets you the decimals valiue
+const getDecimals = value => value.toString().split(".")[1] || 0;
+
+// Function that translates condition to spanish
+const translateCondition = condition => {
+  switch(condition) {
+    case 'new':
+      return 'Nuevo'
+    case 'used':
+      return 'Usado'
+    default:
+      return condition;
+  }
+}
 
 // Parse Items to match requested data
 const parseItem = (item) => {
-  const { currency_id, price, thumbnail, shipping, address } = item;
+  // Destructuring
+  const { currency_id, price, thumbnail, shipping, address, condition } = item;
+
   return Object.assign({
+    ...item,
     author: {
       name: "Bruno",
       lastname: "Digonzelli"
     },
-    ...item,
     price: {
       currency: currency_id,
       amount: price,
-      decimals: countDecimals(price)
+      decimals: getDecimals(price)
     },
     picture: thumbnail,
     free_shipping: shipping.free_shipping,
-    address: address ? address.state_name : null
-  }, item);
+    address: address ? address.state_name : null,
+    condition: translateCondition(condition)
+  });
 };
 
 // Parse full response (items + categories) to match requested data
